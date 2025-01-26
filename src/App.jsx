@@ -1,14 +1,22 @@
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import Home from './pages/Home'
-import Folder from './pages/Folder'
-function App() {
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NotFound from './pages/Notfound';
+import Dashboard from './pages/Dashboard';
+import Navbars from './components/Navbars'
+import FarmerFolder from './pages/FarmerFolder';
+import FolderDetail from './pages/FolderDetail';
+import Login from './pages/Login';
+
+const App = () => {
   return (
     <Router>
+      <Navbars/>
       <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/folder/1' element={<Folder/>}/>
-        <Route path='/folder/2' element={<Folder/>}/>
-        <Route path='/folder/3' element={<Folder/>}/>
+        <Route path="/dashboard" element={<Dashboard/>} />
+        <Route path="/folder" element={<FarmerFolder/>} />
+        <Route path="/Login" element={<Login/>} />
+        <Route path="/folder/:id" element={<FolderDetail/>} />
+        <Route path="*" element={<NotFound />} /> 
       </Routes>
     </Router>
   )
