@@ -58,8 +58,8 @@ const FolderDetail = () => {
             className="cursor-pointer p-5 border border-gray-300 rounded-lg hover:shadow-lg hover:border-gray-300 transition-all duration-300 bg-white hover:scale-105"
           >
             <img
-              src={picture_1}
-              alt={`picture_${image.id}`}
+              src={`http://localhost:3000/uploads/${image.filename}`}
+              alt={`${image.filename}`}
               className="w-full h-48 object-cover rounded-lg"
             />
             <div className="mt-3">
@@ -76,7 +76,7 @@ const FolderDetail = () => {
                 Uploaded on: <span className="font-normal text-stone-400">{image.upload_on}</span>
               </h2>
               <a
-                href={picture_1}
+                href={`http://localhost:3000/download/${image.filename}`}
                 download={image.filename}
                 className="mt-2 inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-800"
               >
