@@ -1,38 +1,26 @@
-import { React } from "react";
+import { useState, React, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import picture_1 from "../assets/picture_1.jpg"; 
 
 const FolderDetail = () => {
+  const [imagesData, setImagesData] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
   const handleGoBack = () => {
     navigate(-1);
   };
+  useEffect(() => {
+    fetch(`http://localhost:3000/api/folders/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setImagesData(data);
+        console.log(data);
+      })
+      .catch((error) => console.error(`Error fetching folders ${id}:`, error));
+  }, [id]);
 
-  const imagesData = [
-    { id: 1, filename: "nonpawit_8821.jpg", latitude: "12.9811° N", longitude: "100.1234° E", uploaded: "2025-01-10" },
-    { id: 2, filename: "natchanan_9823.jpg", latitude: "12.9831° N", longitude: "100.1235° E", uploaded: "2025-01-11" },
-    { id: 3, filename: "suphakit_2345.jpg", latitude: "12.9841° N", longitude: "100.1236° E", uploaded: "2025-01-12" },
-    { id: 4, filename: "nakorn_5567.jpg", latitude: "12.9851° N", longitude: "100.1237° E", uploaded: "2025-01-13" },
-    { id: 5, filename: "nakorn_5567.jpg", latitude: "12.9851° N", longitude: "100.1237° E", uploaded: "2025-01-13" },
-    { id: 6, filename: "john_2345.jpg", latitude: "12.9861° N", longitude: "100.1244° E", uploaded: "2025-01-14" },
-    { id: 7, filename: "alex_9823.jpg", latitude: "12.9871° N", longitude: "100.1245° E", uploaded: "2025-01-15" },
-    { id: 8, filename: "mary_6723.jpg", latitude: "12.9881° N", longitude: "100.1246° E", uploaded: "2025-01-16" },
-    { id: 9, filename: "chris_2341.jpg", latitude: "12.9891° N", longitude: "100.1247° E", uploaded: "2025-01-17" },
-    { id: 10, filename: "david_8321.jpg", latitude: "12.9901° N", longitude: "100.1248° E", uploaded: "2025-01-18" },
-    { id: 11, filename: "kim_2345.jpg", latitude: "12.9911° N", longitude: "100.1249° E", uploaded: "2025-01-19" },
-    { id: 12, filename: "jane_9823.jpg", latitude: "12.9921° N", longitude: "100.1250° E", uploaded: "2025-01-20" },
-    { id: 13, filename: "ryan_2341.jpg", latitude: "12.9931° N", longitude: "100.1251° E", uploaded: "2025-01-21" },
-    { id: 14, filename: "lucas_2345.jpg", latitude: "12.9941° N", longitude: "100.1252° E", uploaded: "2025-01-22" },
-    { id: 15, filename: "kate_8921.jpg", latitude: "12.9951° N", longitude: "100.1253° E", uploaded: "2025-01-23" },
-    { id: 16, filename: "paul_2345.jpg", latitude: "12.9961° N", longitude: "100.1254° E", uploaded: "2025-01-24" },
-    { id: 17, filename: "susan_1245.jpg", latitude: "12.9971° N", longitude: "100.1255° E", uploaded: "2025-01-25" },
-    { id: 18, filename: "julia_7321.jpg", latitude: "12.9981° N", longitude: "100.1256° E", uploaded: "2025-01-26" },
-    { id: 19, filename: "robert_8923.jpg", latitude: "12.9991° N", longitude: "100.1257° E", uploaded: "2025-01-27" },
-    { id: 20, filename: "lily_2345.jpg", latitude: "13.0001° N", longitude: "100.1258° E", uploaded: "2025-01-28" },
-  ];
 
-  const sortedImagesData = imagesData.sort((a, b) => new Date(b.uploaded) - new Date(a.uploaded));
+  const sortedImagesData = imagesData.sort((a, b) => new Date(b.upload_on) - new Date(a.upload_on));
   
   return (
     <>
@@ -57,6 +45,11 @@ const FolderDetail = () => {
           </svg>
         </button>
       </div>
+      {imagesData.length === 0 ? (
+        <div className="flex justify-center items-center p-5">
+          <h2 className="text-xl font-semibold text-gray-600">Not Found Image</h2>
+        </div>
+      ) : (
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 m-5">
         {sortedImagesData.map((image) => (
@@ -80,7 +73,7 @@ const FolderDetail = () => {
                 Longitude: <span className="font-normal text-stone-400">{image.longitude}</span>
               </h2>
               <h2 className="font-semibold text-sm text-stone-600 text-left">
-                Uploaded on: <span className="font-normal text-stone-400">{image.uploaded}</span>
+                Uploaded on: <span className="font-normal text-stone-400">{image.upload_on}</span>
               </h2>
               <a
                 href={picture_1}
@@ -107,6 +100,7 @@ const FolderDetail = () => {
           </div>
         ))}
       </div>
+      )}
     </>
   );
 };

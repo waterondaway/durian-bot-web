@@ -2,15 +2,33 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Implement login logic here
-    if(email === "admin" && password === "admin"){
-        console.log("Logged in with:", email, password);
-        navigate("/folder");
+    setErrorMessage("");
+    try {
+      const response = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username: username, password: password }),
+      });
+
+      if (!response.ok) {
+        const { message } = await response.json();
+        throw new Error(message || "Failed to login");
+      }
+
+      const { token } = await response.json();
+      localStorage.setItem("token", token); // Save the token in localStorage
+      console.log("Logged in with token:", token);
+      navigate("/folder"); // Navigate to a protected page
+    } catch (error) {
+      setErrorMessage(error.message);
     }
         
   };
@@ -26,8 +44,8 @@ const Login = () => {
               id="text"
               className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your username"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
@@ -44,10 +62,13 @@ const Login = () => {
               required
             />
           </div>
+          {errorMessage && (
+            <div className="mb-4 text-red-600 text-sm font-semibold">{errorMessage}</div>
+          )}
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-gray-800 text-white font-semibold py-2 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Login
           </button>
