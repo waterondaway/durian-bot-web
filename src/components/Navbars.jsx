@@ -12,10 +12,10 @@ import {
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard" },
-  { name: "Folder", href: "/folder" },
-  { name: "Whisper", href: "/projects" },
-  { name: "Calendar", href: "/calendar" },
+  // { name: "Dashboard", href: "/dashboard" },
+  { name: "หน้าหลัก", href: "/folder" },
+  // { name: "Whisper", href: "/projects" },
+  // { name: "Calendar", href: "/calendar" },
 ];
 
 function classNames(...classes) {

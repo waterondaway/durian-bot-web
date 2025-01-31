@@ -13,14 +13,16 @@ const App = () => {
 
   return (
     <>
-      {showNavbar && <Navbars />}
-      <Routes>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/folder" element={<FarmerFolder />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/folder/:id" element={<FolderDetail />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <div className="">
+        {showNavbar && <Navbars />}
+        <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/folder" element={<FarmerFolder />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/folder/:id" element={<FolderDetail />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
     </>
   );
 }

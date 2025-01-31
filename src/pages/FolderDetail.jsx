@@ -1,6 +1,5 @@
 import { useState, React, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import picture_1 from "../assets/picture_1.jpg"; 
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 const FolderDetail = () => {
   const [imagesData, setImagesData] = useState([]);
@@ -20,11 +19,12 @@ const FolderDetail = () => {
   }, [id]);
 
 
+
   const sortedImagesData = imagesData.sort((a, b) => new Date(b.upload_on) - new Date(a.upload_on));
   
   return (
     <>
-      <div className="flex justify-between items-center p-4 mt-5">
+      <div className="flex justify-start items-center p-4 mt-5">
         <button
           className="p-3 bg-gray-100 rounded-full hover:bg-gray-300 transition duration-200"
           onClick={handleGoBack}
@@ -44,13 +44,15 @@ const FolderDetail = () => {
             />
           </svg>
         </button>
+        <h1 className="ml-4 font-semibold">ย้อนกลับ</h1>
+        
       </div>
       {imagesData.length === 0 ? (
         <div className="flex justify-center items-center p-5">
           <h2 className="text-xl font-semibold text-gray-600">Not Found Image</h2>
         </div>
       ) : (
-
+        <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 m-5">
         {sortedImagesData.map((image) => (
           <div
@@ -64,16 +66,16 @@ const FolderDetail = () => {
             />
             <div className="mt-3">
               <h2 className="font-semibold text-sm text-stone-600 text-left">
-                Filename: <span className="font-normal text-stone-400">{image.filename}</span>
+                ชื่อไฟล์ภาพ: <span className="font-normal text-stone-400">{image.filename}</span>
               </h2>
               <h2 className="font-semibold text-sm text-stone-600 text-left">
-                Latitude: <span className="font-normal text-stone-400">{image.latitude}</span>
+              ละติจูด: <span className="font-normal text-stone-400">{image.latitude}</span>
               </h2>
               <h2 className="font-semibold text-sm text-stone-600 text-left">
-                Longitude: <span className="font-normal text-stone-400">{image.longitude}</span>
+                ลองจิจูด: <span className="font-normal text-stone-400">{image.longitude}</span>
               </h2>
               <h2 className="font-semibold text-sm text-stone-600 text-left">
-                Uploaded on: <span className="font-normal text-stone-400">{image.upload_on}</span>
+                อัปโหลดเมื่อ: <span className="font-normal text-stone-400">{image.upload_on}</span>
               </h2>
               <a
                 href={`http://localhost:3000/download/${image.filename}`}
@@ -94,12 +96,15 @@ const FolderDetail = () => {
                     d="M12 4v16m8-8H4"
                   />
                 </svg>
-                Download
+                ดาวน์โหลด
               </a>
             </div>
           </div>
         ))}
+        
       </div>
+      {/* <h2 className="ml-7 text-gray-400">ชื่อเกษตรกร: ณกรณ์ ตั้งประภาพร | รหัสเกษตรกร: 782-129-491-212 | อัปโหลดล่าสุด: 2025-01-29</h2> */}
+      </>
       )}
     </>
   );
